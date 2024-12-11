@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="912b990e-151c-4218-a8c5-b7ab732c1ec7" name="Changes" comment="" />
+    <list default="true" id="912b990e-151c-4218-a8c5-b7ab732c1ec7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/DSA-Project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MusicPlayer/src/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/MusicPlayer/src/MusicPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MusicPlayer/src/MusicPlayerGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/MusicPlayer/src/MusicPlayerGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MusicPlayer/src/Song.java" beforeDir="false" afterPath="$PROJECT_DIR$/MusicPlayer/src/Song.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,10 +25,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2q4aQ6dSvTSFOdhAsP6iACCskWl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,7 +40,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/bin/IU/Programming/DSA/Lab/ITDSIU22162_NguyenGiaBao_Lab1"
+    "last_opened_file_path": "D:/bin/IU/Programming/DSA/Project/DSA-Project/MusicPlayer"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
