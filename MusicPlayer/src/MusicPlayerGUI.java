@@ -118,7 +118,7 @@ public class MusicPlayerGUI extends  JFrame {
                     Song song = new Song(selectedFile.getPath());
                     musicPlayer.loadSong(song);
 
-                    updateSonTitleAndArtist(song);
+                    updateSongTitleAndArtist(song);
 
                     updatePlaybackSlider(song);
 
@@ -142,6 +142,25 @@ public class MusicPlayerGUI extends  JFrame {
         playlistMenu.add(createPlaylist);
 
         JMenuItem loadPLaylist = new JMenuItem("Load PLaylist");
+        loadPLaylist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser jFileChooser = new JFileChooser();
+                jFileChooser.setFileFilter(new FileNameExtensionFilter("Playlist", "txt"));
+                jFileChooser.setCurrentDirectory(new File("src/Playlist"));
+
+                int result = jFileChooser.showOpenDialog(MusicPlayerGUI.this);
+                File selectedFile = jFileChooser.getSelectedFile();
+
+                if(result == JFileChooser.APPROVE_OPTION && selectedFile != null){
+                    // stop the music
+                    musicPlayer.stopSong();
+
+                    // load playlist
+                    musicPlayer.loadPlaylist(selectedFile);
+                }
+            }
+        });
         playlistMenu.add(loadPLaylist);
 
         add(toolBar);
@@ -196,12 +215,12 @@ public class MusicPlayerGUI extends  JFrame {
         playbackSlider.setValue(frame);
     }
 
-    private void updateSonTitleAndArtist(Song song){
+    public void updateSongTitleAndArtist(Song song){
         songTitle.setText(song.getSongTitle());
         songArtist.setText(song.getSongArtist());
     }
 
-    private void updatePlaybackSlider(Song song){
+    public void updatePlaybackSlider(Song song){
         playbackSlider.setMaximum(song.getMp3File().getFrameCount());
 
         Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
@@ -221,7 +240,7 @@ public class MusicPlayerGUI extends  JFrame {
         playbackSlider.setPaintLabels(true);
     }
 
-    private void enablePauseButtonDisablePlayButton() {
+    public void enablePauseButtonDisablePlayButton() {
         JButton playButton = (JButton) playbackBtns.getComponent(1);
         JButton pauseButton = (JButton) playbackBtns.getComponent(2);
 
@@ -232,7 +251,7 @@ public class MusicPlayerGUI extends  JFrame {
         pauseButton.setEnabled(true);
     }
 
-    private void enablePlayButtonDisablePauseButton() {
+    public void enablePlayButtonDisablePauseButton() {
         JButton playButton = (JButton) playbackBtns.getComponent(1);
         JButton pauseButton = (JButton) playbackBtns.getComponent(2);
 

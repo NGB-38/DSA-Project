@@ -2,8 +2,8 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.*;
+import java.util.ArrayList;
 
 public class MusicPlayer extends PlaybackListener {
     private static final Object playSignal = new Object();
@@ -13,6 +13,10 @@ public class MusicPlayer extends PlaybackListener {
     public Song getCurrentSong() {
         return currentSong;
     }
+
+    private ArrayList<Song> playlist;
+
+    private int currentPlaylistIndex;
 
     private AdvancedPlayer advancePlayer;
 
@@ -35,6 +39,45 @@ public class MusicPlayer extends PlaybackListener {
         currentSong = song;
 
         if(currentSong != null){
+            playCurrentSong();
+        }
+    }
+
+    public void loadPlaylist(File playlistFile){
+        playlist = new ArrayList<>();
+
+        // store the paths from the text file into the playlist array list
+        try {
+            FileReader fileReader = new FileReader(playlistFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // reach each line from the text file and store the text into the songPath variable
+            String songPath;
+            while((songPath = bufferedReader.readLine()) != null) {
+                Song song = new Song(songPath);
+                playlist.add(song);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(playlist.size() > 0){
+            // reset playback slider
+            musicPlayerGUI.setPlaybackSliderValue(0);
+            currentTimeInMilli = 0;
+
+            // update current song to the first song in the playlist
+            currentSong = playlist.get(0);
+
+            // start from the beginning frame
+            currentFrame = 0;
+
+            // update gui
+            musicPlayerGUI.enablePauseButtonDisablePlayButton();
+            musicPlayerGUI.updateSongTitleAndArtist(currentSong);
+            musicPlayerGUI.updatePlaybackSlider(currentSong);
+
+            // start song
             playCurrentSong();
         }
     }
