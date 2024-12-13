@@ -21,6 +21,11 @@ public class MusicPlayer extends PlaybackListener {
     private AdvancedPlayer advancePlayer;
 
     private boolean isPaused;
+
+    private boolean songFinished;
+
+    private boolean pressedNext, pressedPrev;
+
     private int currentFrame;
     public void setCurrentFrame(int frame){
         currentFrame = frame;
@@ -37,8 +42,17 @@ public class MusicPlayer extends PlaybackListener {
 
     public void loadSong(Song song){
         currentSong = song;
+        playlist = null;
+
+        if(!songFinished)
+            stopSong();
 
         if(currentSong != null){
+
+            currentFrame = 0;
+            currentTimeInMilli = 0;
+            musicPlayerGUI.setPlaybackSliderValue(0);
+
             playCurrentSong();
         }
     }
@@ -105,8 +119,11 @@ public class MusicPlayer extends PlaybackListener {
         // check to see if we have reached the end of the playlist, if so then don't do anything
         if(currentPlaylistIndex + 1 > playlist.size() - 1) return;
 
+        pressedNext = true;
+
         // stop the song if possible
-        stopSong();
+        if(!songFinished)
+            stopSong();
 
         // increase current playlist index
         currentPlaylistIndex++;
@@ -136,14 +153,17 @@ public class MusicPlayer extends PlaybackListener {
         // no need to go to the previous song if there is no playlist
         if (playlist == null) return;
 
+        // check to see if can go to the previous song
+        if(currentPlaylistIndex - 1 < 0) return;
+
+        pressedPrev = true;
+
         // stop the song if possible
-        stopSong();
+        if(!songFinished)
+            stopSong();
 
         // decrease current playlist index
         currentPlaylistIndex--;
-
-        // check to see if we have reached the beginning of the playlist, if so then don't do anything
-        if(currentPlaylistIndex - 1 < 0) return;
 
         // update current song
         currentSong = playlist.get(currentPlaylistIndex);
@@ -218,7 +238,7 @@ public class MusicPlayer extends PlaybackListener {
                 }
 
 //                System.out.println("isPaused: " + isPaused);
-                while(!isPaused){
+                while(!isPaused && !songFinished && !pressedNext && !pressedPrev){
                     try {
                         currentTimeInMilli++;
 
@@ -241,15 +261,39 @@ public class MusicPlayer extends PlaybackListener {
     @Override
     public void playbackStarted(PlaybackEvent evt) {
         System.out.println("Playback Started");
+        songFinished = false;
+        pressedNext = false;
+        pressedPrev = false;
     }
 
     @Override
     public void playbackFinished(PlaybackEvent evt) {
         System.out.println("Playback Finished");
 //        System.out.println("Actual Stop: " + evt.getFrame());
-        if(isPaused){
+        if (isPaused){
             currentFrame += (int) ((double) evt.getFrame() *currentSong.getFrameRatePerMilliseconds());
 //            System.out.println("Stopped @" + currentFrame);
+        } else {
+            // if pressed next or prev button, then don't need to execute the code below
+            if(pressedNext || pressedPrev) return;
+
+            //when the song ends
+            songFinished = true;
+
+            if(playlist == null) {
+                //update gui
+                musicPlayerGUI.enablePlayButtonDisablePauseButton();
+            } else {
+                // last song in the playlist
+                if(currentPlaylistIndex == playlist.size() - 1){
+                    //update gui
+                    musicPlayerGUI.enablePlayButtonDisablePauseButton();
+                } else {
+                    // play the next song
+                    nextSong();
+                }
+            }
+
         }
     }
 }
