@@ -14,9 +14,9 @@ public class MusicPlayer extends PlaybackListener {
         return currentSong;
     }
 
-    private ArrayList<Song> playlist;
+    private DoublyLinkedList<Song> playlist;
 
-    private int currentPlaylistIndex;
+//    private int currentPlaylistIndex;
 
     private AdvancedPlayer advancePlayer;
 
@@ -48,7 +48,6 @@ public class MusicPlayer extends PlaybackListener {
             stopSong();
 
         if(currentSong != null){
-
             currentFrame = 0;
             currentTimeInMilli = 0;
             musicPlayerGUI.setPlaybackSliderValue(0);
@@ -58,7 +57,7 @@ public class MusicPlayer extends PlaybackListener {
     }
 
     public void loadPlaylist(File playlistFile){
-        playlist = new ArrayList<>();
+        playlist = new DoublyLinkedList<>();
 
         // store the paths from the text file into the playlist array list
         try {
@@ -81,7 +80,8 @@ public class MusicPlayer extends PlaybackListener {
             currentTimeInMilli = 0;
 
             // update current song to the first song in the playlist
-            currentSong = playlist.get(0);
+            playlist.resetCurrent();
+            currentSong = playlist.getCurrent();
 
             // start from the beginning frame
             currentFrame = 0;
@@ -117,7 +117,7 @@ public class MusicPlayer extends PlaybackListener {
         if (playlist == null) return;
 
         // check to see if we have reached the end of the playlist, if so then don't do anything
-        if(currentPlaylistIndex + 1 > playlist.size() - 1) return;
+        if(!playlist.hasNext()) return;
 
         pressedNext = true;
 
@@ -125,14 +125,11 @@ public class MusicPlayer extends PlaybackListener {
         if(!songFinished)
             stopSong();
 
-        // increase current playlist index
-        currentPlaylistIndex++;
-
-//        // check to see if we have reached the end of the playlist, if so then don't do anything
-//        if(currentPlaylistIndex + 1 > playlist.size() - 1) return;
+        // move to the next song
+        playlist.moveToNext();
 
         // update current song
-        currentSong = playlist.get(currentPlaylistIndex);
+        currentSong = playlist.getCurrent();
 
         // reset frame
         currentFrame = 0;
@@ -154,7 +151,7 @@ public class MusicPlayer extends PlaybackListener {
         if (playlist == null) return;
 
         // check to see if can go to the previous song
-        if(currentPlaylistIndex - 1 < 0) return;
+        if(!playlist.hasPrev()) return;
 
         pressedPrev = true;
 
@@ -162,11 +159,11 @@ public class MusicPlayer extends PlaybackListener {
         if(!songFinished)
             stopSong();
 
-        // decrease current playlist index
-        currentPlaylistIndex--;
+        // move to the previous song
+        playlist.moveToPrev();
 
         // update current song
-        currentSong = playlist.get(currentPlaylistIndex);
+        currentSong = playlist.getCurrent();
 
         // reset frame
         currentFrame = 0;
@@ -285,7 +282,7 @@ public class MusicPlayer extends PlaybackListener {
                 musicPlayerGUI.enablePlayButtonDisablePauseButton();
             } else {
                 // last song in the playlist
-                if(currentPlaylistIndex == playlist.size() - 1){
+                if(!playlist.hasNext()){
                     //update gui
                     musicPlayerGUI.enablePlayButtonDisablePauseButton();
                 } else {
