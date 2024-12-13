@@ -171,11 +171,20 @@ public class MusicPlayerGUI extends  JFrame {
         playbackBtns.setBounds(0, 435, getWidth() - 10, 80);
         playbackBtns.setBackground(null);
 
+        // previous button
         JButton prevButton = new JButton(loadImage("src/Buttons/previous.png"));
         prevButton.setBorderPainted(false);
         prevButton.setBackground(null);
+        prevButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // go to the previous song
+                musicPlayer.prevSong();
+            }
+        });
         playbackBtns.add(prevButton);
 
+        // play button
         JButton playButton = new JButton(loadImage("src/Buttons/play.png"));
         playButton.setBorderPainted(false);
         playButton.setBackground(null);
@@ -189,6 +198,7 @@ public class MusicPlayerGUI extends  JFrame {
         });
         playbackBtns.add(playButton);
 
+        // pause button
         JButton pauseButton = new JButton(loadImage("src/Buttons/pause.png"));
         pauseButton.setBorderPainted(false);
         pauseButton.setBackground(null);
@@ -203,9 +213,17 @@ public class MusicPlayerGUI extends  JFrame {
         });
         playbackBtns.add(pauseButton);
 
+        //next button
         JButton nextButton = new JButton(loadImage("src/Buttons/next.png"));
         nextButton.setBorderPainted(false);
         nextButton.setBackground(null);
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // go to the next song
+                musicPlayer.nextSong();
+            }
+        });
         playbackBtns.add(nextButton);
 
         add(playbackBtns);

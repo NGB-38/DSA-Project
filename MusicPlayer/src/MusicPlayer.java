@@ -98,6 +98,71 @@ public class MusicPlayer extends PlaybackListener {
         }
     }
 
+    public void nextSong(){
+        // no need to go to the next song if there is no playlist
+        if (playlist == null) return;
+
+        // check to see if we have reached the end of the playlist, if so then don't do anything
+        if(currentPlaylistIndex + 1 > playlist.size() - 1) return;
+
+        // stop the song if possible
+        stopSong();
+
+        // increase current playlist index
+        currentPlaylistIndex++;
+
+//        // check to see if we have reached the end of the playlist, if so then don't do anything
+//        if(currentPlaylistIndex + 1 > playlist.size() - 1) return;
+
+        // update current song
+        currentSong = playlist.get(currentPlaylistIndex);
+
+        // reset frame
+        currentFrame = 0;
+
+        // reset current time in milli
+        currentTimeInMilli = 0;
+
+        // update gui
+        musicPlayerGUI.enablePauseButtonDisablePlayButton();
+        musicPlayerGUI.updateSongTitleAndArtist(currentSong);
+        musicPlayerGUI.updatePlaybackSlider(currentSong);
+
+        // play the song
+        playCurrentSong();
+    }
+
+    public void prevSong(){
+        // no need to go to the previous song if there is no playlist
+        if (playlist == null) return;
+
+        // stop the song if possible
+        stopSong();
+
+        // decrease current playlist index
+        currentPlaylistIndex--;
+
+        // check to see if we have reached the beginning of the playlist, if so then don't do anything
+        if(currentPlaylistIndex - 1 < 0) return;
+
+        // update current song
+        currentSong = playlist.get(currentPlaylistIndex);
+
+        // reset frame
+        currentFrame = 0;
+
+        // reset current time in milli
+        currentTimeInMilli = 0;
+
+        // update gui
+        musicPlayerGUI.enablePauseButtonDisablePlayButton();
+        musicPlayerGUI.updateSongTitleAndArtist(currentSong);
+        musicPlayerGUI.updatePlaybackSlider(currentSong);
+
+        // play the song
+        playCurrentSong();
+    }
+
     public void playCurrentSong() {
         if(currentSong == null) return;
         try {
