@@ -127,6 +127,23 @@ public class MusicPlayerGUI extends  JFrame {
         });
         songMenu.add(loadSong);
 
+        JMenuItem findSong = new JMenuItem("Find Song");
+        findSong.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String prefix = JOptionPane.showInputDialog("Enter the first letter of the song:");
+                if (prefix != null && !prefix.isEmpty()) {
+                    prefix = prefix.toLowerCase();
+                    if (!musicPlayer.searchSong(prefix).isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Song found with prefix: " + musicPlayer.searchSong(prefix));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No song found with prefix: " + prefix);
+                    }
+                }
+            }
+        });
+        songMenu.add(findSong);
+
         JMenuItem sortSongs = new JMenuItem("Sort Songs");
         sortSongs.addActionListener(new ActionListener() {
             @Override

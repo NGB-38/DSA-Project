@@ -3,11 +3,12 @@ import javazoom.jl.player.advanced.PlaybackEvent;
 import javazoom.jl.player.advanced.PlaybackListener;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class MusicPlayer extends PlaybackListener {
     private static final Object playSignal = new Object();
     private MusicPlayerGUI musicPlayerGUI;
+    private Trie songTrie;
 
     private Song currentSong;
     public Song getCurrentSong() {
@@ -38,6 +39,7 @@ public class MusicPlayer extends PlaybackListener {
 
     public MusicPlayer(MusicPlayerGUI musicPlayerGUI){
         this.musicPlayerGUI = musicPlayerGUI;
+        songTrie = new Trie();
     }
 
     public void loadSong(Song song){
@@ -54,6 +56,16 @@ public class MusicPlayer extends PlaybackListener {
 
             playCurrentSong();
         }
+    }
+
+    public List<String> searchSong(String prefix) {
+        Song song = new Song("src/Songs/Wind Riders - Asher Fulero.mp3");
+        songTrie.insert(song.getSongTitle().toLowerCase(), song.getSongTitle() +"-"+ song.getSongArtist());
+        Song song2 = new Song("src/Songs/Auld Lang Syne (Instrumental) - Jingle Punks.mp3");
+        songTrie.insert(song2.getSongTitle().toLowerCase(), song2.getSongTitle() +"-"+ song2.getSongArtist());
+        Song song3 = new Song("src/Songs/Tropic Fuse - French Fuse.mp3");
+        songTrie.insert(song3.getSongTitle().toLowerCase(), song3.getSongTitle() +"-"+ song3.getSongArtist());
+        return songTrie.searchByPrefix(prefix);
     }
 
     public void loadPlaylist(File playlistFile){
