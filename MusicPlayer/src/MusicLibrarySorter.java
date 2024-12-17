@@ -5,25 +5,6 @@ import java.util.List;
 public class MusicLibrarySorter {
     private static final int RUN = 32;
 
-    public static void sortPlaylistByTitle(DoublyLinkedList<Song> playlist) {
-        if (playlist == null || playlist.size() == 0) return;
-
-        // Convert DoublyLinkedList to ArrayList for sorting
-        ArrayList<Song> songList = new ArrayList<>();
-        for (int i = 0; i < playlist.size(); i++) {
-            songList.add(playlist.get(i));
-        }
-
-        // Sort the list using Timsort
-        timSort(songList, new SongTitleComparator());
-
-        // Clear the original playlist and add sorted songs back
-        playlist.clear();
-        for (Song song : songList) {
-            playlist.add(song);
-        }
-    }
-
     private static void insertionSort(List<Song> songs, int left, int right, Comparator<Song> comparator) {
         for (int i = left + 1; i <= right; i++) {
             Song key = songs.get(i);
@@ -87,10 +68,4 @@ public class MusicLibrarySorter {
         }
     }
 
-    private static class SongTitleComparator implements Comparator<Song> {
-        @Override
-        public int compare(Song s1, Song s2) {
-            return s1.getSongTitle().compareToIgnoreCase(s2.getSongTitle());
-        }
-    }
 }
