@@ -59,7 +59,7 @@ public class MusicPlayer extends PlaybackListener {
     public void loadPlaylist(File playlistFile){
         playlist = new DoublyLinkedList<>();
 
-        // store the paths from the text file into the playlist array list
+        // store the paths from the text file into the playlist DLL
         try {
             FileReader fileReader = new FileReader(playlistFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -68,7 +68,7 @@ public class MusicPlayer extends PlaybackListener {
             String songPath;
             while((songPath = bufferedReader.readLine()) != null) {
                 Song song = new Song(songPath);
-                playlist.add(song);
+                playlist.add(song); // add operation is O(1) DLL
             }
         } catch(Exception e){
             e.printStackTrace();
@@ -87,13 +87,22 @@ public class MusicPlayer extends PlaybackListener {
             currentFrame = 0;
 
             // update gui
-            musicPlayerGUI.enablePauseButtonDisablePlayButton();
+//            musicPlayerGUI.enablePauseButtonDisablePlayButton();
+            musicPlayerGUI.enablePlayButtonDisablePauseButton(); // prevent the song from playing automatically
             musicPlayerGUI.updateSongTitleAndArtist(currentSong);
             musicPlayerGUI.updatePlaybackSlider(currentSong);
 
             // start song
-            playCurrentSong();
+//            playCurrentSong();
         }
+    }
+
+    public ArrayList<Song> getPlaylist() {
+        ArrayList<Song> songList = new ArrayList<>();
+        for (int i = 0; i < playlist.size(); i++) {
+            songList.add(playlist.get(i));
+        }
+        return songList;
     }
 
     public void pauseSong(){

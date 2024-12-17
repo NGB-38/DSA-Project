@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class MusicPlayerGUI extends  JFrame {
@@ -94,11 +95,9 @@ public class MusicPlayerGUI extends  JFrame {
     }
 
 
-
     private void addToolbar() {
         JToolBar toolBar = new JToolBar();
         toolBar.setBounds(0, 0, getWidth(), 20);
-
         toolBar.setFloatable(false);
 
         JMenuBar menuBar = new JMenuBar();
@@ -127,6 +126,24 @@ public class MusicPlayerGUI extends  JFrame {
             }
         });
         songMenu.add(loadSong);
+
+        JMenuItem sortSongs = new JMenuItem("Sort Songs");
+        sortSongs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser playlistChooser = new JFileChooser("src/Playlist");
+                playlistChooser.setFileFilter(new FileNameExtensionFilter("Text Files", "txt"));
+                int result = playlistChooser.showOpenDialog(MusicPlayerGUI.this);
+                File selectedFile = playlistChooser.getSelectedFile();
+
+                if (result == JFileChooser.APPROVE_OPTION && selectedFile != null) {
+                    musicPlayer.loadPlaylist(selectedFile);
+                    ArrayList<Song> songs = musicPlayer.getPlaylist();
+                    new SongListFrame(songs).setVisible(true);
+                }
+            }
+        });
+        songMenu.add(sortSongs);
 
         JMenu playlistMenu = new JMenu("Playlist");
         menuBar.add(playlistMenu);

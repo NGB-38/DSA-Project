@@ -1,4 +1,5 @@
 public class DoublyLinkedList<T> {
+
     private class Node {
         T data;
         Node next;
@@ -61,5 +62,10 @@ public class DoublyLinkedList<T> {
 
     public int size() {
         return size;
+    }
+
+    public void clear() {
+        head = tail = current = null;
+        size = 0;
     }
 }
