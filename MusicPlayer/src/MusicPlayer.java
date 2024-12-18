@@ -9,6 +9,7 @@ public class MusicPlayer extends PlaybackListener {
     private static final Object playSignal = new Object();
     private MusicPlayerGUI musicPlayerGUI;
     private Trie songTrie;
+    private CircularBuffer<Song> recentlyPlayedSongs;
 
     private Song currentSong;
     public Song getCurrentSong() {
@@ -40,6 +41,7 @@ public class MusicPlayer extends PlaybackListener {
     public MusicPlayer(MusicPlayerGUI musicPlayerGUI){
         this.musicPlayerGUI = musicPlayerGUI;
         songTrie = new Trie();
+        recentlyPlayedSongs = new CircularBuffer<>(5, Song.class);
     }
 
     public void loadSong(Song song){
@@ -56,6 +58,7 @@ public class MusicPlayer extends PlaybackListener {
 
             playCurrentSong();
         }
+        recentlyPlayedSongs.add(song);
     }
 
     public List<String> searchSong(String prefix) {
@@ -107,6 +110,11 @@ public class MusicPlayer extends PlaybackListener {
             // start song
 //            playCurrentSong();
         }
+
+        ArrayList<Song> songs = getPlaylist();
+        for (Song song : songs) {
+            recentlyPlayedSongs.add(song);
+        }
     }
 
     public ArrayList<Song> getPlaylist() {
@@ -115,6 +123,10 @@ public class MusicPlayer extends PlaybackListener {
             songList.add(playlist.get(i));
         }
         return songList;
+    }
+
+    public CircularBuffer<Song> getRecentlyPlayedSongs() {
+        return recentlyPlayedSongs;
     }
 
     public void pauseSong(){

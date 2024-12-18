@@ -103,6 +103,7 @@ public class MusicPlayerGUI extends  JFrame {
         JMenuBar menuBar = new JMenuBar();
         toolBar.add(menuBar);
 
+        // Song menu
         JMenu songMenu = new JMenu("Song");
         menuBar.add(songMenu);
 
@@ -162,6 +163,16 @@ public class MusicPlayerGUI extends  JFrame {
         });
         songMenu.add(sortSongs);
 
+        JMenuItem recentlyPlayed = new JMenuItem("Recently Played");
+        recentlyPlayed.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showRecentlyPlayedSongs();
+            }
+        });
+        songMenu.add(recentlyPlayed);
+
+        // Playlist menu
         JMenu playlistMenu = new JMenu("Playlist");
         menuBar.add(playlistMenu);
 
@@ -312,6 +323,26 @@ public class MusicPlayerGUI extends  JFrame {
 
         pauseButton.setVisible(false);
         pauseButton.setEnabled(false);
+    }
+
+    private void showRecentlyPlayedSongs() {
+        CircularBuffer<Song> recentlyPlayedSongs = musicPlayer.getRecentlyPlayedSongs();
+        Song[] songs = recentlyPlayedSongs.getAll();
+
+        JFrame frame = new JFrame("Recently Played Songs");
+        frame.setSize(300, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(this);
+
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (Song song : songs) {
+            listModel.addElement(song.getSongTitle() + " - " + song.getSongArtist());
+        }
+
+        JList<String> songList = new JList<>(listModel);
+        frame.add(new JScrollPane(songList));
+
+        frame.setVisible(true);
     }
 
     private ImageIcon loadImage (String imagePath){
