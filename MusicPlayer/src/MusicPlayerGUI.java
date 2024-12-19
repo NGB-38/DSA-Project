@@ -94,7 +94,6 @@ public class MusicPlayerGUI extends  JFrame {
         addPlaybackBtns();
     }
 
-
     private void addToolbar() {
         JToolBar toolBar = new JToolBar();
         toolBar.setBounds(0, 0, getWidth(), 20);

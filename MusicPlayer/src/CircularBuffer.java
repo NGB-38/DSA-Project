@@ -30,6 +30,9 @@ public class CircularBuffer<T> {
 
     @SuppressWarnings("unchecked")
     public T[] getAll() {
+        if (size == 0) {
+            return (T[]) Array.newInstance(type, 0);
+        }
         T[] result = (T[]) Array.newInstance(type, size);
         for (int i = 0; i < size; i++) {
             result[i] = buffer[(head + size - 1 - i) % capacity];

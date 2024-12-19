@@ -57,7 +57,6 @@ public class Trie {
 
     }
 
-
     public List<String> searchByPrefix(String prefix) {
         TrieNode node = root;
         for (char c : prefix.toLowerCase().toCharArray()) {

@@ -18,8 +18,6 @@ public class MusicPlayer extends PlaybackListener {
 
     private DoublyLinkedList<Song> playlist;
 
-//    private int currentPlaylistIndex;
-
     private AdvancedPlayer advancePlayer;
 
     private boolean isPaused;
